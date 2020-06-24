@@ -1,21 +1,21 @@
-import React     from "react"
+import React from "react"
 import {connect} from 'react-redux'
-import Form      from "../Form/Form"
+import Form from "../Form/input/Form"
 import "./App.css"
 
 class App extends React.Component {
 
-    render(){
+    render() {
         return (
-        <div className = "App">
-            <Form/>
-        </div>
+            <div className="App">
+                <Form/>
+            </div>
         )
     }
 }
 
 
-const mapStateToProps = state =>{
+const mapStateToProps = state => {
     return state
 }
 

@@ -1,6 +1,10 @@
 import {combineReducers} from 'redux'
-import formReducer       from './formReducer'
+import formValueReducer  from './formValueReducer'
+import formPropsReducer  from './formPropsReducer'
+import errorReducer      from "./errorReducer"
 
 export default combineReducers({
-    form: formReducer
+    formValue   : formValueReducer,
+    formProps   : formPropsReducer,
+    displayError: errorReducer
 })
