@@ -1,13 +1,13 @@
 import React from "react"
 import {connect} from "react-redux"
 import _ from "lodash"
-import formField from "../json/formField"
-import InputTextField from "./InputTextField"
-import TextAreaField from "./TextAreaField"
-import SelectField from './SelectField'
-import RadioCheckboxField from "./RadioCheckboxField"
-import PasswordField from "./PasswordField"
-import Button from "../Button/Button"
+import formField from "./json/formField"
+import InputTextField from "./input/InputTextField"
+import TextAreaField from "./input/TextAreaField"
+import SelectField from './input/SelectField'
+import RadioCheckboxField from "./input/RadioCheckboxField"
+import PasswordField from "./input/PasswordField"
+import Button from "./Button/Button"
 import {
     formModify,
     radioModify,
@@ -17,8 +17,8 @@ import {
     formPropsRadioModify,
     formPropsRadioModifyPropriety,
     errorStatue
-} from "../../../actions/actions"
-import "../style/Form.css"
+} from "../../actions/actions"
+import "./style/Form.css"
 
 class Form extends React.Component {
 
