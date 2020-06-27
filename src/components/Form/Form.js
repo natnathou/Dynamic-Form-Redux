@@ -3,6 +3,7 @@ import {connect} from "react-redux"
 import _ from "lodash"
 import formField from "./json/formField"
 import InputTextField from "./input/InputTextField"
+import InputFileField from "./input/InputFileField"
 import TextAreaField from "./input/TextAreaField"
 import SelectField from './input/SelectField'
 import RadioCheckboxField from "./input/RadioCheckboxField"
@@ -29,6 +30,8 @@ class Form extends React.Component {
 
     initializePropsValue = json => json.map(data => {
         switch (data.type) {
+            case "file":
+                return this.props.formPropsInitialize({[data.name]: {touch: false, required: data.required, display: data.display, extensionAccepted: data.extensionAccepted, filesContent:[]}})
             case "text":
                 return this.props.formPropsInitialize({[data.name]: {touch: false, required: data.required}})
             case "number":
@@ -65,9 +68,17 @@ class Form extends React.Component {
 
     initializeValue = json => json.map(async data => {
         switch (data.type) {
+            case "file":
+                await this.props.formModify({[data.name]: [""]})
+                this.props.formValue[data.name][0] === "" && this.props.formProps[data.name]["required"]
+                    ?
+                    await this.props.formPropsModify({[data.name]: {error: true}})
+                    :
+                    await this.props.formPropsModify({[data.name]: {error: false}})
+                break
             case "text":
                 await this.props.formModify({[data.name]: data.initialValue})
-                this.props.formValue[data.name] === "" && this.props.formProps[data.name]["required"]
+                this.props.formValue[data.name] === [""] && this.props.formProps[data.name]["required"]
                     ?
                     await this.props.formPropsModify({[data.name]: {error: true}})
                     :
@@ -148,6 +159,18 @@ class Form extends React.Component {
     renderError = (data) => {
         if (this.props.formProps[data.name]) {
             switch (data.type) {
+                case "file":
+
+                if (this.props.formProps[data.name]["touch"] && this.props.formValue[data.name][0] === ""  && data.required) {
+                    return <div className="Error">{data.error}</div>
+                }
+
+                if (this.props.formValue[data.name][0] === "" && data.required && this.props.displayError) {
+                    return <div className="Error">{data.error}</div>
+                } else {
+                    return null
+                }
+
                 case   "checkbox":
                     if (this.props.formProps[data.name]["touch"] && !this.props.formValue[data.name] && data.required) {
                         return <div className="Error">{data.error}</div>
@@ -193,31 +216,74 @@ class Form extends React.Component {
 
     }
 
+    imageRender=(data)=>{
+        if(this.props.formProps[data.name]["filesContent"][0]!=="" && this.props.formProps[data.name]["display"]){
+            return this.props.formProps[data.name]["filesContent"].map(datas=>{
+                console.log()
+                if(datas.type === "image/jpeg" || datas.type === "image/png"){
+                    return <img src={datas.content} alt={data.name} key={datas.content}/>
+                } else{
+                    return null
+                }
+            })
+        }        
+    }
+
 
     renderInput = json => json.map((data, index) => {
         let error = false;
         if (this.props.formProps[data.name]) {
             switch (data.type) {
-                case   "checkbox"                                                                                                                                                      :
+                case "checkbox":
                     if (this.props.formProps[data.name]["touch"] && !this.props.formValue[data.name] && data.required) {
                         error = true;
                     }
                     break
-                case   "list"                                                                                                                                                          :
+                case "list":
                     if (this.props.formProps[data.name]["touch"] && this.props.formValue[data.name] === data.optionArray[0]) {
                         error = true;
                     }
                     break
-                default                                                                                                                                                         :
+                default:
                     if (this.props.formProps[data.name]["touch"] && this.props.formValue[data.name] === "" && data.required) {
                         error = true;
                     }
                     break
             }
-        }
+        }   
 
 
         switch (data.type) {
+            case "file":                
+                if(this.props.formValue[data.name]){
+                    return (
+                        <div key={index}>
+                            <InputFileField
+                                label={data.label}
+                                textLabel={data.textLabel}
+                                type={data.type}
+                                id={data.id}
+                                required={data.required}
+                                name={data.name}
+                                placeholder={data.placeholder}
+                                value={this.props.formValue[data.name][0]["name"] ? `C:\\fakepath\\${this.props.formValue[data.name][0]["name"]}`: [""]}
+                                accept={data.extensionAccepted}
+                                handClick={this.handClick}
+                                handleChange={this.handleChange}
+                                handBlur={this.handBlur}
+                                autocomplete={data.autocomplete}
+                                className={error ? "ErrorColor" : ""}
+                            />
+                            {this.renderError(data)}
+                            <div className="Image">{this.imageRender(data)}</div>
+                        </div>
+    
+                    )
+                    
+                } else {
+                    return null
+                }
+                
             case "text":
                 return (
                     <div key={index}>
@@ -432,6 +498,37 @@ class Form extends React.Component {
                     :
                     await this.props.formPropsModify({[event.target.name]: {error: false}})
                 break
+            
+            case "file":
+                if(event.target.files[0]){
+                    await this.props.formModify({[event.target.name]: event.target.files})
+                    await this.props.formPropsModify({[event.target.name]: {filesContent: []}})
+                    const handleFile = async (e)=>{
+                        const content = e.target.result;
+                        let obj ={};
+                        obj.data=content.split(";")[0].split(":")[1]
+                        obj.base64=content.split(";")[1].split(",")[1]
+                        await this.props.formPropsModify({[event.target.name]: {filesContent: [...this.props.formProps[event.target.name]["filesContent"], {type: obj.data, content: content}]}})
+                    }    
+                    
+                    _.toArray(event.target.files).forEach(data =>{
+                        let fileData = new FileReader();
+                        fileData.onloadend = handleFile;
+                        fileData.readAsDataURL(data)
+                    }) 
+                    
+                } else{
+                    await this.props.formModify({[event.target.name]: [""]})
+                    await this.props.formPropsModify({[event.target.name]: {filesContent: []}})
+                    
+                }
+                this.props.formValue[event.target.name][0] ==="" && this.props.formProps[event.target.name]["required"]
+                        ?
+                        await this.props.formPropsModify({[event.target.name]: {error: true}})
+                        :
+                        await this.props.formPropsModify({[event.target.name]: {error: false}})              
+                    
+                break
 
             default:
                 await this.props.formModify({[event.target.name]: event.target.value})
@@ -444,6 +541,7 @@ class Form extends React.Component {
         }
     }
 
+    
     handClick = (event) => {
         switch (event.target.type) {
             default:
@@ -453,7 +551,17 @@ class Form extends React.Component {
     }
 
     handBlur = async (event) => {
+        event.persist()
         switch (event.target.type) {
+            case "file":
+                let name =event.target.name
+                window.addEventListener("focus", async ()=>{
+                    setTimeout(()=>{
+                        this.props.formPropsModify({[name]: {touch: true}});
+                    },500)
+                     
+                })
+                break
             case "text":
                 await this.props.formPropsModify({[event.target.name]: {touch: true}});
                 break

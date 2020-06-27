@@ -1,5 +1,18 @@
 const formField = [
     {
+        type             : "file",
+        label            : true,
+        textLabel        : "Please Enter your file!",
+        id               : "file",
+        required         : true,
+        name             : "file",
+        placeholder      : "File",
+        autocomplete     : "off",
+        error            : "You have to enter a file!",
+        display          : true,
+        extensionAccepted: "image/*"
+    },
+    {
         type        : "text",
         label       : false,
         textLabel   : null,
@@ -22,6 +35,19 @@ const formField = [
         initialValue: "",
         autocomplete: "off",
         error       : "You have to enter a passport"
+    },
+    {
+        type             : "file",
+        label            : true,
+        textLabel        : "Please Enter your file!",
+        id               : "file",
+        required         : true,
+        name             : "file2",
+        placeholder      : "File",
+        autocomplete     : "off",
+        error            : "You have to enter a file!",
+        display          : true,
+        extensionAccepted: "image/*"
     },
     {
         type        : "text",

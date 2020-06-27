@@ -46,8 +46,16 @@ export const formSend = () => async (dispatch, getState) => {
 export const formReset = (json) => (dispatch, getState) => {
     dispatch(errorStatue(false))
     json.map(data => {
-
         switch (data.type) {
+            case "file":
+                dispatch(formModify({[data.name]: [""]}))
+                dispatch(formPropsInitialize({[data.name]: {touch: false, required: data.required, display: data.display, extensionAccepted: data.extensionAccepted, filesContent:[]}}))
+                getState().formValue[data.name][0] === "" && getState().formProps[data.name]["required"]
+                ?
+                dispatch(formPropsModify({[data.name]: {error: true}}))
+                :
+                dispatch(formPropsModify({[data.name]: {error: false}}))
+                return null
             case "text":
                 dispatch(formModify({[data.name]: data.initialValue}))
                 dispatch(formPropsModify({[data.name]: {touch: false, required: data.required}}))

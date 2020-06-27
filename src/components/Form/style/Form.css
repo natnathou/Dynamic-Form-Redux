@@ -156,6 +156,34 @@
     color: var(--bordeaux) !important;
 }
 
+.Form input[type="file"]{
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.file>label {
+    font-family: var(--main-font-family);
+    width: 100%;
+    margin-top: .35rem;
+    margin-bottom: .35rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--main-color-txt);
+    background-color: var(--main-color-one);
+    cursor: pointer;
+}
+
+
+.file>label>.svgUpload {
+    height: calc(var(--main-height-input)/2);
+}
+
+
 .Form input, .Form textarea {
     font-family: var(--main-font-family);
     width: 100%;
@@ -219,6 +247,20 @@
     border-color: transparent !important;
     outline: 0;
     box-shadow: 0 0 0 0.2rem var(--main-color-four);
+}
+
+.Image{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+}
+
+.Image>img{
+    width: 30%;
+    margin-top: .35rem;
+    margin-bottom: .35rem;
 }
 
 .Button {
