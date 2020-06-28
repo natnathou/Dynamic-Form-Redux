@@ -1,3 +1,4 @@
+//checkbox component or radio component
 import React from "react"
 
 const labelTag = (label, textLabel, id, className) => {

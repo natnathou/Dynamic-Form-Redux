@@ -1,3 +1,4 @@
+//input password component
 import React from "react"
 
 const labelTag = (label, textLabel, id) => {

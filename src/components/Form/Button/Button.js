@@ -6,7 +6,7 @@ import {formSend, formReset} from "../../../actions/actions"
 
 export class Button extends React.Component {
 
-
+// check which button we will render after that we map our json
     renderInput = json => json.map((data, index) => {
         switch (data.function) {
 
@@ -37,10 +37,12 @@ export class Button extends React.Component {
 
     })
 
+    // we clcik on send we will send our form
     handleSendClick = async (event) => {
         this.props.formSend()
     }
 
+    // we clcik on send we will cancel our form
     handleResetClick = async (event) => {
         this.props.formReset(formField)
     }

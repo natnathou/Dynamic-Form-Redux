@@ -1,3 +1,4 @@
+// input select component
 import React from 'react'
 
 const labelTag = (label, textLabel, id) => {

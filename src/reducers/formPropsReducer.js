@@ -4,9 +4,11 @@ import {
     FORM_PROPS_RADIO_INITIALIZE,
     FORM_PROPS_MODIFY,
     FORM_PROPS_RADIO_MODIFY,
-    FORM_PROPS_RADIO_MODIFY_PROPRIETY
+    FORM_PROPS_RADIO_MODIFY_PROPERTY
 } from "../actions/type"
 
+
+//form props reducer all input have some ownprops linke touche, error...
 export default (state = {}, action) => {
     switch (action.type) {
         case FORM_PROPS_INITIALIZE:
@@ -22,12 +24,12 @@ export default (state = {}, action) => {
                 [_.keys(action.payload)]: {...state[_.keys(action.payload)], ...action.payload[_.keys(action.payload)]}
             }
         case FORM_PROPS_RADIO_MODIFY:
-            let propriety    = _.keys(action.payload)
-            let subPropriety = _.keys(action.payload[propriety])
-            let obj          = {...state[propriety][subPropriety], ...action.payload[propriety][subPropriety]}
-            let newObj       = {[subPropriety]: obj}
-            return {...state, [propriety]: {...state[propriety], ...newObj}}
-        case FORM_PROPS_RADIO_MODIFY_PROPRIETY:
+            let property    = _.keys(action.payload)
+            let subProperty = _.keys(action.payload[property])
+            let obj          = {...state[property][subProperty], ...action.payload[property][subProperty]}
+            let newObj       = {[subProperty]: obj}
+            return {...state, [property]: {...state[property], ...newObj}}
+        case FORM_PROPS_RADIO_MODIFY_PROPERTY:
             let key      = _.keys(action.payload)
             let objError = action.payload[_.keys(action.payload)]
             return {...state, [key]: {...state[key], ...objError}}

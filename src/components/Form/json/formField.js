@@ -1,3 +1,4 @@
+//json of our input
 const formField = [
     {
         type             : "file",

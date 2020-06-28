@@ -1,3 +1,4 @@
+// json of our buttons
 const buttonField = [
     {
         function: "reset",

@@ -8,18 +8,22 @@ import {
     FORM_PROPS_RADIO_INITIALIZE,
     FORM_PROPS_MODIFY,
     FORM_PROPS_RADIO_MODIFY,
-    FORM_PROPS_RADIO_MODIFY_PROPRIETY,
+    FORM_PROPS_RADIO_MODIFY_PROPERTY,
     DISPLAY_ERROR
 } from "./type"
 
+
+//to update formValue Reducer
 export const formModify = (formValue) => {
     return {type: FORM_MODIFY, payload: formValue}
 }
 
+//to update formValue Reducer if the input is a radio
 export const radioModify = (formValue, propriety, subPropriety) => {
     return {type: RADIO_MODIFY, payload: {formValue, propriety, subPropriety}}
 }
 
+//check if their is an error befor to send our form to the server
 export const formSend = () => async (dispatch, getState) => {
     let {formProps} = getState()
     let toArray     = _.toArray(formProps)
@@ -34,6 +38,8 @@ export const formSend = () => async (dispatch, getState) => {
     dispatch(errorStatue(err))
     if (!err) {
         console.log("Form is valide!")
+        console.log(getState())
+
     } else {
 
         console.log("Form is invalide!")
@@ -43,6 +49,7 @@ export const formSend = () => async (dispatch, getState) => {
     )
 }
 
+//to reset our form,  form value Reducer and, form props Reducer
 export const formReset = (json) => (dispatch, getState) => {
     dispatch(errorStatue(false))
     json.map(data => {
@@ -108,9 +115,9 @@ export const formReset = (json) => (dispatch, getState) => {
                 checkError()
                 err && getState().formProps[data.name][data.value]["required"]
                     ?
-                    dispatch(formPropsRadioModifyPropriety({[data.name]: {error: true}}))
+                    dispatch(formPropsRadioModifyProperty({[data.name]: {error: true}}))
                     :
-                    dispatch(formPropsRadioModifyPropriety({[data.name]: {error: false}}))
+                    dispatch(formPropsRadioModifyProperty({[data.name]: {error: false}}))
                 return null
             case "checkbox":
                 dispatch(formModify({[data.name]: data.initialChecked}))
@@ -155,26 +162,32 @@ export const formReset = (json) => (dispatch, getState) => {
     )
 }
 
+//to initialize form props reducer
 export const formPropsInitialize = (formProps) => {
     return {type: FORM_PROPS_INITIALIZE, payload: formProps}
 }
 
+//to initialize form props reducer (if it's a radio input)
 export const formPropsRadioInitialize = (formValue, propriety, subPropriety) => {
     return {type: FORM_PROPS_RADIO_INITIALIZE, payload: {formValue, propriety, subPropriety}}
 }
 
+//to update form props reducer
 export const formPropsModify = (formProps) => {
     return {type: FORM_PROPS_MODIFY, payload: formProps}
 }
 
+//to update sub property in form props reducer (if it's a radio input) (two sub level)
 export const formPropsRadioModify          = (formValue) => {
     return {type: FORM_PROPS_RADIO_MODIFY, payload: formValue}
 }
-export const formPropsRadioModifyPropriety = (formValue) => {
-    return {type: FORM_PROPS_RADIO_MODIFY_PROPRIETY, payload: formValue}
+
+//to update property in form props reducer (if it's a radio input) (one sub level)
+export const formPropsRadioModifyProperty = (formValue) => {
+    return {type: FORM_PROPS_RADIO_MODIFY_PROPERTY, payload: formValue}
 }
 
-
+//to update display error status
 export const errorStatue = (status) => {
     return {type: DISPLAY_ERROR, payload: status}
 }

@@ -16,15 +16,16 @@ import {
     formPropsRadioInitialize,
     formPropsModify,
     formPropsRadioModify,
-    formPropsRadioModifyPropriety,
+    formPropsRadioModifyProperty,
     errorStatue
 } from "../../actions/actions"
 import "./style/Form.css"
 
 class Form extends React.Component {
-
     componentDidMount() {
+        //value form initialization
         this.initializePropsValue(formField)
+        //value props initilization
         this.initializeValue(formField)
     }
 
@@ -121,9 +122,9 @@ class Form extends React.Component {
                 checkError()
                 err && this.props.formProps[data.name][data.value]["required"]
                     ?
-                    await this.props.formPropsRadioModifyPropriety({[data.name]: {error: true}})
+                    await this.props.formPropsRadioModifyProperty({[data.name]: {error: true}})
                     :
-                    this.props.formPropsRadioModifyPropriety({[data.name]: {error: false}})
+                    this.props.formPropsRadioModifyProperty({[data.name]: {error: false}})
                 break
 
             case "checkbox":
@@ -155,16 +156,17 @@ class Form extends React.Component {
         }
     })
 
-
+    // method to display error message when the input is empty if the input is required
     renderError = (data) => {
         if (this.props.formProps[data.name]) {
             switch (data.type) {
                 case "file":
 
+                //check if error after that the input is touched
                 if (this.props.formProps[data.name]["touch"] && this.props.formValue[data.name][0] === ""  && data.required) {
                     return <div className="Error">{data.error}</div>
                 }
-
+                //check if error when we wil send our form
                 if (this.props.formValue[data.name][0] === "" && data.required && this.props.displayError) {
                     return <div className="Error">{data.error}</div>
                 } else {
@@ -172,10 +174,11 @@ class Form extends React.Component {
                 }
 
                 case   "checkbox":
+                //check if error after that the input is touched
                     if (this.props.formProps[data.name]["touch"] && !this.props.formValue[data.name] && data.required) {
                         return <div className="Error">{data.error}</div>
                     }
-
+                //check if error when we wil send our form
                     if (!this.props.formValue[data.name] && data.required && this.props.displayError) {
                         return <div className="Error">{data.error}</div>
                     } else {
@@ -183,6 +186,7 @@ class Form extends React.Component {
                     }
 
                 case   "radio":
+                //check if error when we wil send our form (ww dont check touched because if the input is a radio we cannot touch if without to select it so it cannot be empty)
                     if (this.props.formProps[data.name]["error"] && this.props.displayError) {
                         return <div className="Error">{data.error}</div>
                     } else {
@@ -191,11 +195,11 @@ class Form extends React.Component {
 
 
                 case   "list":
-
+                //check if error after that the input is touched
                     if (this.props.formProps[data.name]["touch"] && this.props.formValue[data.name] === data.optionArray[0] && data.required) {
                         return <div className="Error">{data.error}</div>
                     }
-
+                //check if error when we wil send our form
                     if (this.props.formValue[data.name] === data.optionArray[0] && data.required && this.props.displayError) {
                         return <div className="Error">{data.error}</div>
                     } else {
@@ -203,9 +207,12 @@ class Form extends React.Component {
                     }
 
                 default:
+                //check if error after that the input is touched
                     if (this.props.formProps[data.name]["touch"] && this.props.formValue[data.name] === "" && data.required) {
                         return (<div className="Error">{data.error}</div>)
                     }
+                //check if error when we wil send our form
+
                     if (this.props.formValue[data.name] === "" && data.required && this.props.displayError) {
                         return (<div className="Error">{data.error}</div>)
                     } else {
@@ -216,6 +223,7 @@ class Form extends React.Component {
 
     }
 
+    //method to render an image if the file selected is an image (render with file reader)
     imageRender=(data)=>{
         if(this.props.formValue[data.name][0]!=="" && this.props.formProps[data.name]["display"]){
             return this.props.formProps[data.name]["filesContent"].map((datas, index)=>{
@@ -228,9 +236,10 @@ class Form extends React.Component {
         }        
     }
 
-
+//methode to map our json and check which input we will render
     renderInput = json => json.map((data, index) => {
         let error = false;
+        //error variable value assignation to check when we will pass the class ErrorColor to our input
         if (this.props.formProps[data.name]) {
             switch (data.type) {
                 case "checkbox":
@@ -251,9 +260,10 @@ class Form extends React.Component {
             }
         }   
 
-
+        // map our json to check which type of input we will render
         switch (data.type) {
-            case "file":                
+            case "file":
+                //text label vale assignation ("select your file or number of file uploaded")                 
                 if(this.props.formValue[data.name]){
                     let textLabel=data.textLabel
 
@@ -285,15 +295,13 @@ class Form extends React.Component {
                             {this.renderError(data)}
                             <div className="Image">{this.imageRender(data)}</div>
                         </div>
-    
                     )
                     
                 } else {
                     return null
                 }
                 
-            case "text":
-                               
+            case "text":                               
                 return (
                     <div key={index}>
                         <InputTextField
@@ -476,6 +484,7 @@ class Form extends React.Component {
         }
     });
 
+//change event
     handleChange = async (event) => {
         event.persist()
         switch (event.target.type) {
@@ -493,7 +502,7 @@ class Form extends React.Component {
                 await this.props.radioModify({[event.target.name]: {[event.target.value]: event.target.checked}}, event.target.name, event.target.value)
                 await this.props.formPropsRadioModify({[event.target.name]: {[event.target.value]: {touch: true}}})
                 if (this.props.formProps[event.target.name][event.target.value]["required"]) {
-                    this.props.formPropsRadioModifyPropriety({[event.target.name]: {error: false}})
+                    this.props.formPropsRadioModifyProperty({[event.target.name]: {error: false}})
                 }
 
                 break
@@ -550,7 +559,7 @@ class Form extends React.Component {
         }
     }
 
-    
+    // click event
     handClick = async (event) => {
         event.persist()
         switch (event.target.type) {
@@ -558,6 +567,7 @@ class Form extends React.Component {
                 let name =event.target.name
                 window.addEventListener("focus", async ()=>{
                     setTimeout(async ()=>{
+                        // we wait that the window will be focus to update the touch props
                         await this.props.formPropsModify({[name]: {touch: true}});
                     },500)               
                      
@@ -569,6 +579,7 @@ class Form extends React.Component {
         }
     }
 
+    // blur event
     handBlur = async (event) => {
         event.persist()
         switch (event.target.type) {
@@ -627,7 +638,7 @@ export default connect(
         formPropsRadioInitialize,
         formPropsModify,
         formPropsRadioModify,
-        formPropsRadioModifyPropriety,
+        formPropsRadioModifyProperty,
         errorStatue
     }
 )(Form)

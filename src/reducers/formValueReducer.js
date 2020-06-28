@@ -1,5 +1,7 @@
 import {FORM_MODIFY, RADIO_MODIFY} from "../actions/type"
 
+
+//form value reducer
 export default (state = {}, action) => {
     switch (action.type) {
         case FORM_MODIFY:
