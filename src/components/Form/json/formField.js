@@ -13,6 +13,19 @@ const formField = [
         extensionAccepted: "image/*"
     },
     {
+        type             : "file",
+        label            : true,
+        textLabel        : "Please Enter your file!",
+        id               : "file2",
+        required         : true,
+        name             : "file2",
+        placeholder      : "File",
+        autocomplete     : "off",
+        error            : "You have to enter a file!",
+        display          : true,
+        extensionAccepted: "image/*"
+    },
+    {
         type        : "text",
         label       : false,
         textLabel   : null,

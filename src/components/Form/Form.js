@@ -217,18 +217,13 @@ class Form extends React.Component {
     }
 
     imageRender=(data)=>{
-        if(this.props.formProps[data.name]["filesContent"][0] && this.props.formProps[data.name]["display"]){
+        if(this.props.formValue[data.name][0]!=="" && this.props.formProps[data.name]["display"]){
             return this.props.formProps[data.name]["filesContent"].map((datas, index)=>{
-                if(this.props.formValue[data.name][index]){
                     if(datas.type === "image/jpeg" || datas.type === "image/png"){
                         return <img src={datas.content} alt={`${this.props.formValue[data.name][index]["name"]}`} key={index}/>
-                    } else {
+                    } else{
                         return null
-                    }                   
-                }
-                 else{
-                    return null
-                }
+                    }
             })
         }        
     }
