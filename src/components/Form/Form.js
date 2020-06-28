@@ -217,12 +217,16 @@ class Form extends React.Component {
     }
 
     imageRender=(data)=>{
-        if(this.props.formProps[data.name]["filesContent"][0]!=="" && this.props.formProps[data.name]["display"]){
-            return this.props.formProps[data.name]["filesContent"].map(datas=>{
-                console.log()
-                if(datas.type === "image/jpeg" || datas.type === "image/png"){
-                    return <img src={datas.content} alt={data.name} key={datas.content}/>
-                } else{
+        if(this.props.formProps[data.name]["filesContent"][0] && this.props.formProps[data.name]["display"]){
+            return this.props.formProps[data.name]["filesContent"].map((datas, index)=>{
+                if(this.props.formValue[data.name][index]){
+                    if(datas.type === "image/jpeg" || datas.type === "image/png"){
+                        return <img src={datas.content} alt={`${this.props.formValue[data.name][index]["name"]}`} key={index}/>
+                    } else {
+                        return null
+                    }                   
+                }
+                 else{
                     return null
                 }
             })
@@ -256,17 +260,26 @@ class Form extends React.Component {
         switch (data.type) {
             case "file":                
                 if(this.props.formValue[data.name]){
+                    let textLabel=data.textLabel
+
+                    if(this.props.formProps[data.name]["filesContent"][0]!=="" && this.props.formProps[data.name]["filesContent"].length===1){
+                        textLabel = "1 File Uploaded"
+                    }
+                    if(this.props.formProps[data.name]["filesContent"][0]!=="" && this.props.formProps[data.name]["filesContent"].length>1){
+                        textLabel=`${this.props.formProps[data.name]["filesContent"].length} Files Uploaded`
+                    }
+                   
                     return (
                         <div key={index}>
                             <InputFileField
                                 label={data.label}
-                                textLabel={data.textLabel}
+                                textLabel={textLabel}
                                 type={data.type}
                                 id={data.id}
                                 required={data.required}
                                 name={data.name}
                                 placeholder={data.placeholder}
-                                value={this.props.formValue[data.name][0]["name"] ? `C:\\fakepath\\${this.props.formValue[data.name][0]["name"]}`: [""]}
+                                value={this.props.formValue[data.name][0].name ? `C:\\fakepath\\${this.props.formValue[data.name][0].name}`: undefined}
                                 accept={data.extensionAccepted}
                                 handClick={this.handClick}
                                 handleChange={this.handleChange}
@@ -285,6 +298,7 @@ class Form extends React.Component {
                 }
                 
             case "text":
+                               
                 return (
                     <div key={index}>
                         <InputTextField
@@ -500,7 +514,7 @@ class Form extends React.Component {
                 break
             
             case "file":
-                if(event.target.files[0]){
+                if(event.target.files[0]){ 
                     await this.props.formModify({[event.target.name]: event.target.files})
                     await this.props.formPropsModify({[event.target.name]: {filesContent: []}})
                     const handleFile = async (e)=>{
@@ -542,8 +556,18 @@ class Form extends React.Component {
     }
 
     
-    handClick = (event) => {
+    handClick = async (event) => {
+        event.persist()
         switch (event.target.type) {
+            case "file":
+                let name =event.target.name
+                window.addEventListener("focus", async ()=>{
+                    setTimeout(async ()=>{
+                        await this.props.formPropsModify({[name]: {touch: true}});
+                    },500)               
+                     
+                })
+                break
             default:
                 break
 
@@ -553,15 +577,7 @@ class Form extends React.Component {
     handBlur = async (event) => {
         event.persist()
         switch (event.target.type) {
-            case "file":
-                let name =event.target.name
-                window.addEventListener("focus", async ()=>{
-                    setTimeout(()=>{
-                        this.props.formPropsModify({[name]: {touch: true}});
-                    },500)
-                     
-                })
-                break
+            
             case "text":
                 await this.props.formPropsModify({[event.target.name]: {touch: true}});
                 break
