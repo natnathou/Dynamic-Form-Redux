@@ -2,7 +2,7 @@ const formField = [
     {
         type             : "file",
         label            : true,
-        textLabel        : "Please Enter your file!",
+        textLabel        : "Select your file!",
         id               : "file",
         required         : true,
         name             : "file",
@@ -15,7 +15,7 @@ const formField = [
     {
         type             : "file",
         label            : true,
-        textLabel        : "Please Enter your file!",
+        textLabel        : "Select your file!",
         id               : "file2",
         required         : true,
         name             : "file2",
