@@ -49,118 +49,127 @@ export const formSend = () => async (dispatch, getState) => {
     )
 }
 
-//to reset our form,  form value Reducer and, form props Reducer
-export const formReset = (json) => (dispatch, getState) => {
-    dispatch(errorStatue(false))
-    json.map(data => {
-        switch (data.type) {
-            case "file":
-                dispatch(formModify({[data.name]: [""]}))
-                dispatch(formPropsInitialize({[data.name]: {touch: false, required: data.required, display: data.display, extensionAccepted: data.extensionAccepted, filesContent:[]}}))
-                getState().formValue[data.name][0] === "" && getState().formProps[data.name]["required"]
-                ?
-                dispatch(formPropsModify({[data.name]: {error: true}}))
-                :
-                dispatch(formPropsModify({[data.name]: {error: false}}))
-                return null
-            case "text":
-                dispatch(formModify({[data.name]: data.initialValue}))
-                dispatch(formPropsModify({[data.name]: {touch: false, required: data.required}}))
-                getState().formValue[data.name] === "" && getState().formProps[data.name]["required"]
+export const formReset= (json, key) => (dispatch, getState) => {
+    console.log(key)
+        dispatch(errorStatue(false))
+        json.map(data => {
+            switch (data.type) {
+                case "file":
+                    dispatch(formModify({[key]:{[data.name]: [""]}}))
+                    dispatch(formPropsInitialize({[key]:{[data.name]: {touch: false, required: data.required, display: data.display, extensionAccepted: data.extensionAccepted, filesContent:[]}}}))
+                    getState()[key].formValue[data.name][0] === "" && getState()[key].formProps[data.name]["required"]
                     ?
-                    dispatch(formPropsModify({[data.name]: {error: true}}))
+                    dispatch(formPropsModify({[key]:{[data.name]: {error: true}}}))
                     :
-                    dispatch(formPropsModify({[data.name]: {error: false}}))
-                return null
-            case "number":
-                dispatch(formModify({[data.name]: data.initialValue}))
-                dispatch(formPropsModify({[data.name]: {touch: false, required: data.required}}))
-                return null
-            case "tel":
-                dispatch(formModify({[data.name]: data.initialValue}))
-                dispatch(formPropsModify({[data.name]: {touch: false, required: data.required}}))
-                getState().formValue[data.name] === "" && getState().formProps[data.name]["required"]
-                    ?
-                    dispatch(formPropsModify({[data.name]: {error: true}}))
-                    :
-                    dispatch(formPropsModify({[data.name]: {error: false}}))
-                return null
-            case "password":
-                dispatch(formModify({[data.name]: data.initialValue}))
-                dispatch(formPropsModify({[data.name]: {touch: false, required: data.required}}))
-                getState().formValue[data.name] === "" && getState().formProps[data.name]["required"]
-                    ?
-                    dispatch(formPropsModify({[data.name]: {error: true}}))
-                    :
-                    dispatch(formPropsModify({[data.name]: {error: false}}))
-                return null
-            case "radio":
-                dispatch(radioModify({[data.name]: {[data.value]: data.initialChecked}}, data.name, data.value))
-                dispatch(formPropsModify({
-                    [data.name]: {
-                        [data.value]: {
-                            touch   : false,
-                            required: data.required
+                    dispatch(formPropsModify({[key]:{[data.name]: {error: false}}}))
+                    return null
+                case "text":
+                    dispatch(formModify({[key]:{[data.name]: data.initialValue}}))
+                    dispatch(formPropsModify({[key]:{[data.name]: {touch: false, required: data.required}}}))
+                    getState()[key].formValue[data.name] === "" && getState()[key].formProps[data.name]["required"]
+                        ?
+                        dispatch(formPropsModify({[key]:{[data.name]: {error: true}}}))
+                        :
+                        dispatch(formPropsModify({[key]:{[data.name]: {error: false}}}))
+                    return null
+                case "number":
+                    dispatch(formModify({[key]:{[data.name]: data.initialValue}}))
+                    dispatch(formPropsModify({[key]:{[data.name]: {touch: false, required: data.required}}}))
+                    return null
+                case "tel":
+                    dispatch(formModify({[key]:{[data.name]: data.initialValue}}))
+                    dispatch(formPropsModify({[key]:{[data.name]: {touch: false, required: data.required}}}))
+                    getState()[key].formValue[data.name] === "" && getState()[key].formProps[data.name]["required"]
+                        ?
+                        dispatch(formPropsModify({[key]:{[data.name]: {error: true}}}))
+                        :
+                        dispatch(formPropsModify({[key]:{[data.name]: {error: false}}}))
+                    return null
+                case "password":
+                    dispatch(formModify({[key]:{[data.name]: data.initialValue}}))
+                    dispatch(formPropsModify({[key]:{[data.name]: {touch: false, required: data.required}}}))
+                    getState()[key].formValue[data.name] === "" && getState()[key].formProps[data.name]["required"]
+                        ?
+                        dispatch(formPropsModify({[key]:{[data.name]: {error: true}}}))
+                        :
+                        dispatch(formPropsModify({[key]:{[data.name]: {error: false}}}))
+                    return null
+                case "radio":
+                    dispatch(radioModify({[key]:{[data.name]: {[data.value]: data.initialChecked}}}, data.name, data.value))
+                    dispatch(formPropsModify({
+                        [key]:{
+                            [data.name]: {
+                                [data.value]: {
+                                    touch   : false,
+                                    required: data.required
+                                }
+                            }
                         }
-                    }
-                }, data.name, data.value))
-                let err        = true;
-                let checkError = () => _.toArray(getState().formValue[data.name]).forEach((data) => {
-                    if (data) {
-
-                        err = false
-                    }
-                })
-
-                checkError()
-                err && getState().formProps[data.name][data.value]["required"]
-                    ?
-                    dispatch(formPropsRadioModifyProperty({[data.name]: {error: true}}))
-                    :
-                    dispatch(formPropsRadioModifyProperty({[data.name]: {error: false}}))
-                return null
-            case "checkbox":
-                dispatch(formModify({[data.name]: data.initialChecked}))
-                dispatch(formPropsModify({[data.name]: {touch: false, required: data.required}}))
-                getState().formValue[data.name] && getState().formProps[data.name]["required"]
-                    ?
-                    dispatch(formPropsModify({[data.name]: {error: true}}))
-                    :
-                    dispatch(formPropsModify({[data.name]: {error: false}}))
-                return null
-            case "big_text":
-                dispatch(formModify({[data.name]: data.initialValue}))
-                dispatch(formPropsModify({[data.name]: {touch: false, required: data.required}}))
-                getState().formValue[data.name] === "" && getState().formProps[data.name]["required"]
-                    ?
-                    dispatch(formPropsModify({[data.name]: {error: true}}))
-                    :
-                    dispatch(formPropsModify({[data.name]: {error: false}}))
-                return null
-            case "list":
-                dispatch(formModify({[data.name]: data.initialValue}))
-                dispatch(formPropsModify({
-                    [data.name]: {
-                        touch      : false,
-                        required   : data.required,
-                        optionArray: data.optionArray
-                    }
-                }))
-                getState().formValue[data.name] === getState().formProps[data.name]["optionArray"][0]
-                    ?
-                    dispatch(formPropsModify({[data.name]: {error: true}}))
-                    :
-                    dispatch(formPropsModify({[data.name]: {error: false}}))
-                return null
-            default:
-                return null
-        }
-    })
-
-    dispatch(
-        {type: FORM_RESET}
-    )
+                    }, data.name, data.value))
+                    let err        = true;
+                    let checkError = () => _.toArray(getState()[key].formValue[data.name]).forEach((data) => {
+                        if (data) {
+    
+                            err = false
+                        }
+                    })
+    
+                    checkError()
+                    err && getState()[key].formProps[data.name][data.value]["required"]
+                        ?
+                        dispatch(formPropsRadioModifyProperty({[key]:{[data.name]: {error: true}}}))
+                        :
+                        dispatch(formPropsRadioModifyProperty({[key]:{[data.name]: {error: false}}}))
+                    return null
+                case "checkbox":
+                    dispatch(formModify({[key]:{[data.name]: data.initialChecked}}))
+                    dispatch(formPropsModify({[key]:{[data.name]: {touch: false, required: data.required}}}))
+                    getState()[key].formValue[data.name] && getState()[key].formProps[data.name]["required"]
+                        ?
+                        dispatch(formPropsModify({[key]:{[data.name]: {error: true}}}))
+                        :
+                        dispatch(formPropsModify({[key]:{[data.name]: {error: false}}}))
+                    return null
+                case "big_text":
+                    dispatch(formModify({[key]:{[data.name]: data.initialValue}}))
+                    dispatch(formPropsModify({[key]:{[data.name]: {touch: false, required: data.required}}}))
+                    getState()[key].formValue[data.name] === "" && getState()[key].formProps[data.name]["required"]
+                        ?
+                        dispatch(formPropsModify({[key]:{[key]:{[data.name]: {error: true}}}}))
+                        :
+                        dispatch(formPropsModify({[key]:{[data.name]: {error: false}}}))
+                    return null
+                case "list":
+                    dispatch(formModify({[key]:{[data.name]: data.initialValue}}))
+                    dispatch(formPropsModify({
+                        [key]:{
+                            [data.name]: {
+                                touch      : false,
+                                required   : data.required,
+                                optionArray: data.optionArray
+                            }
+                        }
+                    }))
+                    getState()[key].formValue[data.name] === getState()[key].formProps[data.name]["optionArray"][0]
+                        ?
+                        dispatch(formPropsModify({[key]:{[data.name]: {error: true}}}))
+                        :
+                        dispatch(formPropsModify({[key]:{[data.name]: {error: false}}}))
+                    return null
+                default:
+                    return null
+            }
+        })
+    
+        dispatch(
+            {type: FORM_RESET}
+        )
 }
+
+
+
+//to reset our form,  form value Reducer and, form props Reducer
+
 
 //to initialize form props reducer
 export const formPropsInitialize = (formProps) => {

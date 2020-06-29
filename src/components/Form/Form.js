@@ -1,7 +1,6 @@
 import React from "react"
 import {connect} from "react-redux"
 import _ from "lodash"
-import formField from "./json/formField"
 import InputTextField from "./input/InputTextField"
 import InputFileField from "./input/InputFileField"
 import TextAreaField from "./input/TextAreaField"
@@ -21,12 +20,14 @@ import {
 } from "../../actions/actions"
 import "./style/Form.css"
 
+
 class Form extends React.Component {
+    
     componentDidMount() {
         //value form initialization
-        this.initializePropsValue(formField)
+        this.initializePropsValue(this.props.formField)
         //value props initilization
-        this.initializeValue(formField)
+        this.initializeValue(this.props.formField)
     }
 
     initializePropsValue = json => json.map(data => {
@@ -614,8 +615,8 @@ class Form extends React.Component {
     render() {
         return (
             <div className="Form">
-                {this.renderInput(formField)}
-                <Button/>
+                {this.renderInput(this.props.formField)}
+                <Button formField={this.props.formField} buttonField={this.props.buttonField} nameForm={this.props.nameForm}/>
             </div>
         )
 
@@ -623,11 +624,14 @@ class Form extends React.Component {
 
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state,ownProps) => {
     return {
-        formValue   : state.formValue,
-        formProps   : state.formProps,
-        displayError: state.displayError
+        formValue   : state[ownProps.nameForm].formValue,
+        formProps   : state[ownProps.nameForm].formProps,
+        displayError: state[ownProps.nameForm].displayError,
+        formField   : ownProps.formField,
+        buttonField : ownProps.buttonField,
+        nameForm    : ownProps.nameForm
     }
 };
 export default connect(
