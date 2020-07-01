@@ -79,6 +79,15 @@ export const formReset = (json, nameForm) => (dispatch, getState) => {
                     :
                     dispatch(formPropsModify({[data.name]: {error: false}}, nameForm))
                 return null
+            case "email":
+                dispatch(formModify({[data.name]: data.initialValue}, nameForm))
+                dispatch(formPropsModify({[data.name]: {touch: false, required: data.required}}, nameForm))
+                getState()["formValue"][nameForm][data.name] === "" && getState()["formProps"][nameForm][data.name]["required"]
+                    ?
+                    dispatch(formPropsModify({[data.name]: {error: true}}, nameForm))
+                    :
+                    dispatch(formPropsModify({[data.name]: {error: false}}, nameForm))
+                return null
             case "number":
                 dispatch(formModify({[data.name]: data.initialValue}, nameForm))
                 dispatch(formPropsModify({[data.name]: {touch: false, required: data.required}}, nameForm))
@@ -209,4 +218,3 @@ export const formPropsRadioModifyProperty = (formValue, formName) => {
 export const errorStatue = (status, formName) => {
     return {type: DISPLAY_ERROR, payload: status, formName: formName}
 }
-

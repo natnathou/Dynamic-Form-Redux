@@ -52,6 +52,13 @@ class Form extends React.Component {
                             required: data.required
                         }
                     }, this.props.nameForm)
+                case "email":
+                    return this.props.formPropsInitialize({
+                        [data.name]: {
+                            touch   : false,
+                            required: data.required
+                        }
+                    }, this.props.nameForm)
                 case "number":
                     return this.props.formPropsInitialize({
                         [data.name]: {
@@ -121,6 +128,14 @@ class Form extends React.Component {
                     await this.props.formPropsModify({[data.name]: {error: false}}, this.props.nameForm)
                 break
             case "text":
+                await this.props.formModify({[data.name]: data.initialValue}, this.props.nameForm)
+                this.props.formValue[data.name] === "" && this.props.formProps[data.name]["required"]
+                    ?
+                    await this.props.formPropsModify({[data.name]: {error: true}}, this.props.nameForm)
+                    :
+                    await this.props.formPropsModify({[data.name]: {error: false}}, this.props.nameForm)
+                break
+            case "email":
                 await this.props.formModify({[data.name]: data.initialValue}, this.props.nameForm)
                 this.props.formValue[data.name] === "" && this.props.formProps[data.name]["required"]
                     ?
@@ -361,6 +376,28 @@ class Form extends React.Component {
                     }
 
                 case "text":
+                    return (
+                        <div key={index}>
+                            <InputTextField
+                                label={data.label}
+                                textLabel={data.textLabel}
+                                type={data.type}
+                                id={data.id}
+                                required={data.required}
+                                name={data.name}
+                                placeholder={data.placeholder}
+                                value={this.props.formValue[data.name]}
+                                handClick={this.handClick}
+                                handleChange={this.handleChange}
+                                handBlur={this.handBlur}
+                                autocomplete={data.autocomplete}
+                                className={error ? "ErrorColor" : ""}
+                            />
+                            {this.renderError(data)}
+                        </div>
+
+                    )
+                case "email":
                     return (
                         <div key={index}>
                             <InputTextField
@@ -656,6 +693,9 @@ class Form extends React.Component {
         switch (event.target.type) {
 
             case "text":
+                await this.props.formPropsModify({[event.target.name]: {touch: true}}, this.props.nameForm);
+                break
+            case "email":
                 await this.props.formPropsModify({[event.target.name]: {touch: true}}, this.props.nameForm);
                 break
             case "number":

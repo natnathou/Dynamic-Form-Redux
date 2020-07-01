@@ -15,6 +15,18 @@ const formField = {
                 error       : "You have to enter an username!"
             },
             {
+                type        : "email",
+                label       : false,
+                textLabel   : null,
+                id          : null,
+                required    : true,
+                name        : "email",
+                placeholder : "email",
+                initialValue: "",
+                autocomplete: "off",
+                error       : "You have to enter an email!"
+            },
+            {
                 type        : "password",
                 label       : false,
                 textLabel   : null,
