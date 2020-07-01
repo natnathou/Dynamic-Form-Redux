@@ -22,7 +22,7 @@ const formField = {
                 id          : null,
                 required    : true,
                 name        : "email",
-                placeholder : "email",
+                placeholder : "Email",
                 initialValue: "",
                 autocomplete: "off",
                 error       : "You have to enter an email!"
