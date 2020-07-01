@@ -226,6 +226,10 @@
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
+.Form textarea{
+    max-width: none!important;
+}
+
 .radio, .checkbox {
     width: 100%;
     display: flex;
