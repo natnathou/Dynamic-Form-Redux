@@ -1,5 +1,6 @@
 import _ from "lodash"
-import formJson from "./formField"
+import formField from "./formField"
 
+const nameForm = _.keys(formField)
 
-export default _.keys(formJson)
+export default nameForm

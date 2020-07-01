@@ -1,44 +1,7 @@
 //json of our input
 const formField = {
-    form2:[{
-        type        : "text",
-        label       : false,
-        textLabel   : null,
-        id          : null,
-        required    : true,
-        name        : "username",
-        placeholder : "Username",
-        initialValue: "",
-        autocomplete: "off",
-        error       : "You have to enter an username!"
-    }],
-    form: 
-            [{
-                type             : "file",
-                label            : true,
-                textLabel        : "Select your file!",
-                id               : "file",
-                required         : true,
-                name             : "file",
-                placeholder      : "File",
-                autocomplete     : "off",
-                error            : "You have to enter a file!",
-                display          : true,
-                extensionAccepted: "image/*"
-            },
-            {
-                type             : "file",
-                label            : true,
-                textLabel        : "Select your file!",
-                id               : "file2",
-                required         : true,
-                name             : "file2",
-                placeholder      : "File",
-                autocomplete     : "off",
-                error            : "You have to enter a file!",
-                display          : true,
-                extensionAccepted: "image/*"
-            },
+    formName:
+        [
             {
                 type        : "text",
                 label       : false,
@@ -97,7 +60,7 @@ const formField = {
                 placeholder   : "Mr",
                 value         : "Mr",
                 autocomplete  : "off",
-                initialChecked: true,
+                initialChecked: false,
                 error         : "You have to check one of this entry!"
             },
             {
@@ -198,7 +161,21 @@ const formField = {
                 autocomplete: "off",
                 error       : "You have to enter a choose a state"
 
-            }]
+            },
+            {
+                type             : "file",
+                label            : true,
+                textLabel        : "Upload your files!",
+                id               : "file",
+                required         : true,
+                name             : "file",
+                placeholder      : "File",
+                autocomplete     : "off",
+                error            : "You have to enter a file!",
+                display          : true,
+                extensionAccepted: "image/*"
+            }
+        ]
 };
 
 export default formField;

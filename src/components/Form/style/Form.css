@@ -26,14 +26,34 @@
     --shadow-green: rgba(40, 167, 69, .25);
     --shadow-teal: rgba(32, 201, 151, .25);
     --shadow-cyan: rgba(23, 162, 184, .25);
-    --main-color-txt: var(--gray);
-    --main-color-one: var(--white);
-    --main-color-two: var(--gray);
-    --main-color-three: var(--cyan);
-    --main-color-four: var(--shadow-blue);
+    --main-fontSize: 1rem;
+    --main-fontSizeButton: 1rem;
+    --main-fontWeight: 400;
+    --main-fontWeightButton: 400;
+    --main-fontWeightError: 600;
+    --main-lineHeight: 1.5;
+    --main-lineHeightButton: 1.5;
+    --main-margin: .35rem;
+    --main-margin-button: 2rem;
+    --main-padding: .35rem;
+    --main-padding-button: .75rem;
+    --main-pading-error: .5rem;
+    --main-radius: .25rem;
+    --main-radiusButton: .25rem;
     --main-height-input: 30px;
     --main-height-textArea: 100px;
     --main-height-select: 30px;
+    --main-height-radio: 15px;
+    --main-height-button: 35px;
+    --main-color-error: var(--bordeaux);
+    --main-backgroundColor-error: var(--orange--light);
+    --main-boxShadowColorError: var(--pink-light);
+    --main-color-txt: var(--gray);
+    --main-color-background: var(--white);
+    --main-color-border: var(--gray);
+    --main-color-shadow: var(--shadow-blue);
+    --main-ColorButton-shadow: var(--shadow-blue);
+    --main-Color-button: var(--white);
     --main-font-family: 'Roboto', sans-serif;
 }
 
@@ -100,24 +120,24 @@
 
 .Error {
     font-family: var(--main-font-family);
-    padding: .5rem;
+    padding: var(--main-pading-error);
     box-sizing: border-box;
-    margin-top: .35rem;
-    margin-bottom: .35rem;
+    margin-top: var(--main-margin);
+    margin-bottom: var(--main-margin);
     width: 100%;
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.5;
-    color: var(--bordeaux);
-    background-color: var(--orange--light);
-    border: 1px solid var(--orange--bordeaux);
-    border-radius: .25rem;
-    box-shadow: 0 0 0 1px var(--pink-light) inset, 0 0 0 0 transparent;
+    font-size: var(--main-fontSize);
+    font-weight: var(--main-fontWeightError);
+    line-height: var(--main-lineHeight);
+    color: var(--main-color-error);
+    background-color: var(--main-backgroundColor-error);
+    border: 1px solid var(--main-color-error);
+    border-radius: var(--main-radius);
+    box-shadow: 0 0 0 1px var(--main-boxShadowColorError) inset, 0 0 0 0 transparent;
 }
 
 .Form {
     width: 100%;
-    padding: .25rem;
+    padding: var(--main-padding);
     display: flex;
     flex-direction: column;
 }
@@ -142,18 +162,18 @@
 }
 
 .ErrorColor {
-    color: var(--bordeaux) !important;
-    background-color: var(--orange--light);
-    border: 1px solid var(--orange--bordeaux) !important;
-    box-shadow: 0 0 0 1px var(--pink-light) inset, 0 0 0 0 transparent;
+    color: var(--main-color-error) !important;
+    background-color: var(--main-backgroundColor-error);
+    border: 1px solid var(--main-color-error) !important;
+    box-shadow: 0 0 0 1px var(--main-boxShadowColorError) inset, 0 0 0 0 transparent;
 }
 
 .ErrorColorRadioCheckbox {
-    color: var(--bordeaux) !important;
+    color: var(--main-color-error) !important;
 }
 
 .ErrorColor::placeholder {
-    color: var(--bordeaux) !important;
+    color: var(--main-color-error) !important;
 }
 
 .Form input[type="file"]{
@@ -165,16 +185,22 @@
 	z-index: -1;
 }
 
+
+.file{
+    height: var(--main-height-input);
+    margin-top: var(--main-margin);
+    margin-bottom: var(--main-margin);
+    display: flex;
+    align-items: center;
+}
 .file>label {
     font-family: var(--main-font-family);
     width: 100%;
-    margin-top: .35rem;
-    margin-bottom: .35rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
+    font-size: var(--main-fontSize);
+    font-weight: var(--main-fontWeight);
+    line-height: var(--main-lineHeight);
     color: var(--main-color-txt);
-    background-color: var(--main-color-one);
+    background-color: var(--main-color-background);
     cursor: pointer;
 }
 
@@ -187,16 +213,16 @@
 .Form input, .Form textarea {
     font-family: var(--main-font-family);
     width: 100%;
-    margin-top: .35rem;
-    margin-bottom: .35rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
+    margin-top: var(--main-margin);
+    margin-bottom: var(--main-margin);
+    font-size: var(--main-fontSize);
+    font-weight: var(--main-fontWeight);
+    line-height: var(--main-lineHeight);
     color: var(--main-color-txt);
-    background-color: var(--main-color-one);
+    background-color: var(--main-color-background);
     background-clip: padding-box;
-    border: 1px solid var(--main-color-two);
-    border-radius: .25rem;
+    border: 1px solid var(--main-color-border);
+    border-radius: var(--main-radius);
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
@@ -208,8 +234,8 @@
 }
 
 .radio > input, .checkbox > input {
-    width: 20px;
-    height: 15px;
+    width: var(--main-height-radio);
+    height: var(--main-height-radio);
 
 }
 
@@ -223,16 +249,16 @@
 .Form select {
     font-family: var(--main-font-family);
     height: var(--main-height-select);
-    margin-top: .35rem;
-    margin-bottom: .35rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
+    margin-top: var(--main-margin);
+    margin-bottom: var(--main-margin);
+    font-size: var(--main-fontSize);
+    font-weight: var(--main-fontWeight);
+    line-height: var(--main-lineHeight);
     color: var(--main-color-txt);
-    background-color: var(--main-color-one);
+    background-color: var(--main-color-background);
     background-clip: padding-box;
-    border: 1px solid var(--main-color-two);
-    border-radius: .25rem;
+    border: 1px solid var(--main-color-border);
+    border-radius: var(--main-radius);
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
 }
@@ -246,7 +272,7 @@
     background-color: transparent !important;
     border-color: transparent !important;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem var(--main-color-four);
+    box-shadow: 0 0 0 0.2rem var(--main-color-shadow);
 }
 
 .Image{
@@ -259,9 +285,9 @@
 
 .Image>img{
     width: 30%;
-    margin-top: .35rem;
-    margin-bottom: .35rem;
-    border-radius: .25rem;
+    margin-top: var(--main-margin);
+    margin-bottom: var(--main-margin);
+    border-radius: var(--main-radius);
 }
 
 .Button {
@@ -274,17 +300,16 @@
 .Button button {
     display: inline-block;
     font-family: var(--main-font-family);
-    height: var(--main-height-input);
-    margin-top: .50rem;
-    margin-bottom: .25rem;
-    padding: 0 .75rem 0 .75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: var(--main-color-one);
-    background-color: var(--blue);
+    height: var(--main-height-button);
+    margin-top: var(--main-margin-button);
+    margin-bottom: var(--main-radius);
+    padding: 0 var(--main-padding-button) 0 var(--main-padding-button);
+    font-size: var(---main-fontSizeButton);
+    font-weight: var(--main-fontWeightButton);
+    line-height: var(--main-lineHeightButton);
+    color: var(--main-Color-button);
     border: 1px solid transparent;
-    border-radius: .25rem;
+    border-radius: var(--main-radiusButton);
     outline: 0;
     background-clip: padding-box;
     cursor: pointer;
@@ -295,7 +320,5 @@
 .Button button:active {
     border-color: transparent !important;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem var(--main-color-four);
+    box-shadow: 0 0 0 0.2rem var(--main-ColorButton-shadow);
 }
-
-

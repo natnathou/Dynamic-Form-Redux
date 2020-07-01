@@ -1,20 +1,22 @@
 import React from "react"
 import {connect} from 'react-redux'
 import Form from "../Form/Form"
+import buttonField from "../Form/json/buttonField"
+import formField from "../Form/json/formField"
 import "./App.css"
-import buttonJson from "../Form/json/buttonField"
-import formJson from "../Form/json/formField"
-const nameForm="form"
-const buttonField = buttonJson[nameForm]
-const formField = formJson[nameForm]
 
 class App extends React.Component {
 
     render() {
         return (
             <div className="App">
-                <Form formField={formField} buttonField={buttonField} nameForm={nameForm}/>
+                <Form
+                    formField={formField}
+                    buttonField={buttonField}
+                    nameForm={`formName`}
+                />            
             </div>
+        
         )
     }
 }

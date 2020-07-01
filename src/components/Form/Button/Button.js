@@ -1,7 +1,6 @@
-import React                from 'react'
-import {connect}            from "react-redux"
-import {formSend,formReset} from "../../../actions/actions"
-
+import React from 'react'
+import {connect} from "react-redux"
+import {formSend, formReset} from "../../../actions/actions"
 
 
 export class Button extends React.Component {
@@ -10,25 +9,25 @@ export class Button extends React.Component {
     renderInput = json => json.map((data, index) => {
         switch (data.function) {
 
-            case "send": 
+            case "send":
                 return <button
-                    className = {data.color}
-                    key       = {index}
-                    onClick   = {this.handleSendClick}>
+                    className={data.color}
+                    key={index}
+                    onClick={this.handleSendClick}>
                     {data.value}
                 </button>
-            case "reset": 
+            case "reset":
                 return <button
-                    className = {data.color}
-                    key       = {index}
-                    onClick   = {this.handleResetClick}>
+                    className={data.color}
+                    key={index}
+                    onClick={this.handleResetClick}>
                     {data.value}
                 </button>
 
-            default: 
+            default:
                 return <button
-                    className = {data.color}
-                    key       = {index}>
+                    className={data.color}
+                    key={index}>
                     {data.value}
                 </button>
 
@@ -39,7 +38,7 @@ export class Button extends React.Component {
 
     // we clcik on send we will send our form
     handleSendClick = async (event) => {
-        this.props.formSend()
+        this.props.formSend(this.props.nameForm)
     }
 
     // we clcik on send we will cancel our form
@@ -48,8 +47,9 @@ export class Button extends React.Component {
     }
 
     render() {
+        
         return (
-            <div className = "Button">
+            <div className="Button">
                 {this.renderInput(this.props.buttonField)}
             </div>
         )
@@ -57,9 +57,9 @@ export class Button extends React.Component {
 }
 
 
-const mapStateToProps = (state,ownProps) => {
+const mapStateToProps = (state, ownProps) => {
+    
     return {
-        form       : state[ownProps.nameForm],
         formField  : ownProps.formField,
         buttonField: ownProps.buttonField,
         nameForm   : ownProps.nameForm

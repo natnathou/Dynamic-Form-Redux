@@ -1,22 +1,31 @@
 import {FORM_MODIFY, RADIO_MODIFY} from "../actions/type"
+import nameForm from "../components/Form/json/nameForm"
+
+
+const initialState = {}
+
+nameForm.forEach(data=>{
+    initialState[data]=null
+})
 
 
 //form value reducer
-export default (state = {}, action) => {
+export default (state = initialState, action) => {
     switch (action.type) {
         case FORM_MODIFY:
-            return {...state, ...action.payload}
+            return {...state, [action.formName]:{...state[action.formName], ...action.payload}}
         case RADIO_MODIFY:
-            let level1 = {...state[action.payload.propriety], ...action.payload.formValue[action.payload.propriety]}
-            let level2 = level1[action.payload.subPropriety]
-            if (level2) {
-                Object.getOwnPropertyNames(level1).forEach(key => {
+            let property = {...state[action.formName][action.payload.propriety], ...action.payload.formValue[action.payload.propriety]}
+            let objectProperty = {...state[action.formName],[action.payload.propriety]:property}
+            let statusSubProperty = property[action.payload.subPropriety]
+            if (statusSubProperty) {
+                Object.getOwnPropertyNames(property).forEach(key => {
                     if (key !== action.payload.subPropriety) {
-                        level1[key] = false
+                        property[key] = false
                     }
                 })
             }
-            return {...state, [action.payload.propriety]: level1}
+            return {...state, [action.formName]: objectProperty}
         default:
             return state;
     }
