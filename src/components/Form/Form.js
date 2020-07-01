@@ -16,12 +16,15 @@ import {
     formPropsModify,
     formPropsRadioModify,
     formPropsRadioModifyProperty,
-    errorStatue
+    errorStatue,
+    formSend
 } from "../../actions/actions"
 import "./style/Form.css"
 
 
 class Form extends React.Component {
+
+
 
     componentDidMount() {
         //value form initialization
@@ -29,6 +32,7 @@ class Form extends React.Component {
 
         this.initializePropsValue(this.props.formField)
         //value props initilization
+
     }
 
     initializePropsValue = json => {
@@ -311,10 +315,10 @@ class Form extends React.Component {
                         }
                         break
                     case "list":
-                        if (this.props.formProps[data.name]["touch"] && this.props.formValue[data.name] === data.optionArray[0]) {
+                        if (this.props.formProps[data.name]["touch"] && this.props.formValue[data.name] === data.optionArray[0]  && data.required) {
                             error = true;
                         }
-                        if (this.props.displayError && this.props.formValue[data.name] === data.optionArray[0]) {
+                        if (this.props.displayError && this.props.formValue[data.name] === data.optionArray[0]  && data.required) {
                             error = true;
                         }
                         break
@@ -721,14 +725,37 @@ class Form extends React.Component {
         }
     }
 
+    handSubmit=(event)=>{
+        event.preventDefault()
+        this.props.formSend(this.props.nameForm)
+    }
+
+    handKeyPress=(event)=>{
+        if(event.key==="Enter"){
+            this.handSubmit(event)
+        }
+        else{
+            this.handleChange(event)
+        }
+    }
+
 
     render() {
         return (
-            <div className="Form">
+            <form 
+                className="Form" 
+                onSubmit={this.handSubmit} 
+                onKeyPress={this.handKeyPress}
+            >
+            
                 {this.renderInput(this.props.formField)}
-                <Button formField={this.props.formField} buttonField={this.props.buttonField}
-                        nameForm={this.props.nameForm}/>
-            </div>
+                <Button 
+                    formField={this.props.formField} 
+                    buttonField={this.props.buttonField}
+                    nameForm={this.props.nameForm}
+                    formSend={this.handSubmit}
+                />
+            </form>
         )
 
     }
@@ -755,6 +782,7 @@ export default connect(
         formPropsModify,
         formPropsRadioModify,
         formPropsRadioModifyProperty,
-        errorStatue
+        errorStatue,
+        formSend
     }
 )(Form)

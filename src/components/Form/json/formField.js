@@ -1,7 +1,8 @@
 //json of our input
 const formField = {
-    formName:
+    formName: 
         [
+            
             {
                 type        : "text",
                 label       : false,

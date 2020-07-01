@@ -306,7 +306,7 @@
     font-family: var(--main-font-family);
     height: var(--main-height-button);
     margin-top: var(--main-margin-button);
-    margin-bottom: var(--main-radius);
+    margin-bottom: var(--main-margin-button);
     padding: 0 var(--main-padding-button) 0 var(--main-padding-button);
     font-size: var(---main-fontSizeButton);
     font-weight: var(--main-fontWeightButton);

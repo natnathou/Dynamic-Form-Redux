@@ -26,8 +26,11 @@ const PasswordField = ({
                            handBlur = null,
                            className = ""
                        }) => {
+    if(autocomplete==="off"){
+        autocomplete="new-password"
+    }
     return (
-        <form className={type}>
+        <div className={type}>
             {labelTag(label, textLabel, id)}
             <input
                 type={type}
@@ -42,7 +45,7 @@ const PasswordField = ({
                 onBlur={handBlur}
                 className={className}
             />
-        </form>
+        </div>
     )
 }
 

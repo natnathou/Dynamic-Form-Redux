@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from "react-redux"
-import {formSend, formReset} from "../../../actions/actions"
+import {formReset} from "../../../actions/actions"
 
 
 export class Button extends React.Component {
@@ -11,9 +11,11 @@ export class Button extends React.Component {
 
             case "send":
                 return <button
+                    type="submit"
                     className={data.color}
                     key={index}
-                    onClick={this.handleSendClick}>
+                    onClick={this.handleSendClick}
+                    >
                     {data.value}
                 </button>
             case "reset":
@@ -37,17 +39,18 @@ export class Button extends React.Component {
     })
 
     // we clcik on send we will send our form
-    handleSendClick = async (event) => {
-        this.props.formSend(this.props.nameForm)
+    handleSendClick = (event) => {
+        this.props.formSend(event)
     }
 
     // we clcik on send we will cancel our form
-    handleResetClick = async (event) => {
+    handleResetClick = (event) => {
+        event.preventDefault()
         this.props.formReset(this.props.formField, this.props.nameForm)
+        
     }
 
-    render() {
-        
+    render() {        
         return (
             <div className="Button">
                 {this.renderInput(this.props.buttonField)}
@@ -62,9 +65,10 @@ const mapStateToProps = (state, ownProps) => {
     return {
         formField  : ownProps.formField,
         buttonField: ownProps.buttonField,
-        nameForm   : ownProps.nameForm
+        nameForm   : ownProps.nameForm,
+        formSend   : ownProps.formSend
     }
 };
 export default connect(
-    mapStateToProps, {formSend, formReset}
+    mapStateToProps, {formReset}
 )(Button)
