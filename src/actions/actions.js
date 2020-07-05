@@ -42,7 +42,8 @@ export const formSend = (nameForm) => async (dispatch, getState) => {
 
     } else {
         console.log("Form is invalide!")
-        // we send our form and if we have an error in the response we dispatch it if setResponseMessageError
+        // we send our form and if we have an error in the response we dispatch it if 
+        //dispatch(setResponseMessageError(message from the response, nameForm))
     }
     dispatch(
         {type: FORM_SEND}
