@@ -17,7 +17,8 @@ import {
     formPropsRadioModify,
     formPropsRadioModifyProperty,
     errorStatue,
-    formSend
+    formSend,
+    setResponseMessageError
 } from "../../actions/actions"
 import "./style/Form.css"
 
@@ -296,6 +297,12 @@ class Form extends React.Component {
                     return null
                 }
             })
+        }
+    }
+
+    renderResponseMessageError=()=>{
+        if(this.props.responseErrorMessage!==""){
+            return <div className="Error">{this.props.responseErrorMessage}</div>
         }
     }
 
@@ -749,6 +756,7 @@ class Form extends React.Component {
             >
             
                 {this.renderInput(this.props.formField)}
+                {this.renderResponseMessageError()}
                 <Button 
                     formField={this.props.formField} 
                     buttonField={this.props.buttonField}
@@ -764,12 +772,13 @@ class Form extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        nameForm    : ownProps.nameForm,
-        formValue   : state.formValue[ownProps.nameForm],
-        formProps   : state.formProps[ownProps.nameForm],
-        displayError: state.displayError[ownProps.nameForm],
-        formField   : ownProps.formField[ownProps.nameForm],
-        buttonField : ownProps.buttonField[ownProps.nameForm],
+        nameForm            : ownProps.nameForm,
+        formValue           : state.formValue[ownProps.nameForm],
+        formProps           : state.formProps[ownProps.nameForm],
+        displayError        : state.displayError[ownProps.nameForm],
+        responseErrorMessage:state.responseErrorMessage[ownProps.nameForm],
+        formField           : ownProps.formField[ownProps.nameForm],
+        buttonField         : ownProps.buttonField[ownProps.nameForm],
     }
 
 };
@@ -783,6 +792,7 @@ export default connect(
         formPropsRadioModify,
         formPropsRadioModifyProperty,
         errorStatue,
-        formSend
+        formSend,
+        setResponseMessageError
     }
 )(Form)

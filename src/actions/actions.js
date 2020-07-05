@@ -9,7 +9,8 @@ import {
     FORM_PROPS_MODIFY,
     FORM_PROPS_RADIO_MODIFY,
     FORM_PROPS_RADIO_MODIFY_PROPERTY,
-    DISPLAY_ERROR
+    DISPLAY_ERROR,
+    RESPONSE_ERROR_MESSAGE
 } from "./type"
 
 //to update formValue Reducer
@@ -40,8 +41,8 @@ export const formSend = (nameForm) => async (dispatch, getState) => {
         console.log(getState()["formValue"][nameForm])
 
     } else {
-
         console.log("Form is invalide!")
+        // we send our form and if we have an error in the response we dispatch it if setResponseMessageError
     }
     dispatch(
         {type: FORM_SEND}
@@ -217,4 +218,9 @@ export const formPropsRadioModifyProperty = (formValue, formName) => {
 //to update display error status
 export const errorStatue = (status, formName) => {
     return {type: DISPLAY_ERROR, payload: status, formName: formName}
+}
+
+//to update response message error
+export const setResponseMessageError = (message, formName) => {
+    return {type: RESPONSE_ERROR_MESSAGE, payload: message, formName: formName}
 }
