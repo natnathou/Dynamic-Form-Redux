@@ -23,6 +23,7 @@ import {
 import "./style/Form.css"
 
 
+
 class Form extends React.Component {
 
 
@@ -33,6 +34,9 @@ class Form extends React.Component {
 
         this.initializePropsValue(this.props.formField)
         //value props initilization
+        
+        
+;
 
     }
 
@@ -738,11 +742,11 @@ class Form extends React.Component {
     }
 
     handKeyPress=(event)=>{
-        if(event.key==="Enter"){
-            this.handSubmit(event)
+        if(event.key==="Enter" && event.target.tagName !== "TEXTAREA"){
+            this.handSubmit(event)            
         }
         else{
-            this.handleChange(event)
+            event.stopPropagation()
         }
     }
 
